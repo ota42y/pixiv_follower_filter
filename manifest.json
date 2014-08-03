@@ -1,0 +1,28 @@
+﻿{
+  "name": "pixiv_follower_filtter",
+  "description": "pixiv follower filtter on search result",
+	"version": "0.0.0.1",
+	"manifest_version": 2,
+	"permissions": [
+    "http://www.pixiv.net/*"
+	],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://ajax.googleapis.com/ ; object-src 'self'",
+  "browser_action": {
+    "name": "Reload Follow Data",
+    "default_icon":{
+      "19": "icon.png"
+    },
+    "default_title": "Reload Follow Data",
+    "default_popup": "popup.html",
+    "js": ["src.js"]
+  },
+	"content_scripts":[
+    {
+      "matches": [
+        "http://www.pixiv.net/search.php*"
+      ],
+      "js": ["script.js"],
+		  "run_at":"document_idle"
+    }
+  ]
+}
