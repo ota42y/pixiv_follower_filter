@@ -1,5 +1,10 @@
 function dataReload(){
-  setTimeout("setLastUpdate()", 3000);
+  localStorage['last_update'] = 'loading...';
+
+  chrome.storage.local.clear(function(){
+    localStorage['last_update'] = 'loading...';
+    setTimeout("loadFollowData()", 0);
+  });
 }
 
 function setLastUpdate(){
@@ -14,4 +19,8 @@ function getLastUpdate(){
   }else{
     return "no data";
   }
+}
+
+function loadFollowData(){
+
 }

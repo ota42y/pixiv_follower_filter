@@ -1,9 +1,12 @@
 $(document).ready( function() {
   $("#ReloadButton").click(function(){
     chrome.extension.getBackgroundPage().dataReload();
+    setLastUpdate();
   });
+  setLastUpdate();
+});
 
-  // if last update is exist, set data
+function setLastUpdate(){
   var target = document.getElementById("last_update");
   target.innerHTML = chrome.extension.getBackgroundPage().getLastUpdate();
-});
+}
