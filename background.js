@@ -12,8 +12,9 @@ function dataReload(){
 }
 
 function setLastUpdate(){
-  localStorage['last_update'] = 'aaa';
-  console.log("saved!")
+  var last_update = (new Date()).toLocaleString();
+  localStorage['last_update'] = last_update;
+  console.log("last update " + last_update)
 }
 
 function getLastUpdate(){
@@ -28,8 +29,27 @@ function getLastUpdate(){
 function loadFollowData(){
   if(now_page != 0){
     var url = "http://www.pixiv.net/bookmark.php?type=user&rest=show&p=" + now_page
+    console.log("check " + url);
     $.get(url, function(data){
-      console.log(data);
+
+      // get all member id in page
+      var members = $(data).find("div.members input");
+      var members_num = members.length
+      for(var index = 0; index < members_num; index++){
+        var member = members[index];
+        var member_id = member.value;
+        localStorage[member_id] = true;
+      }
+
+      // check next page if exist
+      var next = $(data).find(".button[rel='next']").length;
+      if(next != 0){
+        now_page++;
+        setTimeout("loadFollowData()", 3000);
+      }else{
+        // all data checked
+        setLastUpdate();
+      }
     });
   }
 }
