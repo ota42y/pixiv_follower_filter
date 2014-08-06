@@ -1,20 +1,33 @@
-isRemoveUser = function(user_id) {
-	return true;
+removeUser = function(user_id) {
+	// get illust_iteml
+	var items = document.getElementsByClassName("image-item")
+	var items_num = items.length
+	for(var index = items_num - 1; 0 <= index; index--){
+		var item = items[index]
+
+		var user_object = item.querySelector(".user")
+		var member_id = user_object.dataset.user_id
+
+		if(user_id == member_id){
+			item.parentNode.removeChild(item)
+			return;
+		}
+	}
 }
 
 // get illust_iteml
 var items = document.getElementsByClassName("image-item")
 var items_num = items.length
 for(var index = items_num - 1; 0 <= index; index--){
-	item = items[index]
+	var item = items[index]
 
 	var user_object = item.querySelector(".user")
-	var user_id = user_object.dataset.user_id
+	var member_id = user_object.dataset.user_id
 
-	console.log("user_id")
-
-	if(isRemoveUser(user_id)){
-		item.parentNode.removeChild(item)
-		items_num--;
-	}
+	chrome.runtime.sendMessage({method: "isRemoveUser", member_id: member_id}, function(response) {
+  	if(response.is_remove){
+			console.log(response.member_id + " is followed");
+			removeUser(response.member_id);
+		}
+	});
 }

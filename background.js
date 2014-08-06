@@ -53,3 +53,13 @@ function loadFollowData(){
     });
   }
 }
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log(request)
+  if (request.method == "isRemoveUser"){
+    var is_remove = localStorage[request.member_id];
+    sendResponse({is_remove: is_remove, member_id: request.member_id});
+  }else{
+    sendResponse({}); // snub them.
+  }
+});
