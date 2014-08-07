@@ -1,5 +1,24 @@
 var now_page = 0;
 
+function getState(){
+  return localStorage['state'];
+}
+
+
+function switchState(){
+  var state = localStorage['state'];
+  if(state == "false"){
+    state = false;
+  }
+
+  if(state){
+    localStorage['state'] = false;
+  }else{
+    localStorage['state'] = true;
+  }
+}
+
+
 function dataReload(){
   localStorage['last_update'] = 'loading...';
   now_page = 0;
@@ -18,11 +37,11 @@ function setLastUpdate(){
 }
 
 function getLastUpdate(){
-  last_update = localStorage['last_update'];
+  var last_update = localStorage['last_update'];
   if(last_update){
     return last_update;
   }else{
-    return "no data";
+    return "none";
   }
 }
 
@@ -57,7 +76,11 @@ function loadFollowData(){
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log(request)
   if (request.method == "isRemoveUser"){
-    var is_remove = localStorage[request.member_id];
+    var is_remove = false;
+    if(localStorage['state'] == "true"){
+      is_remove = localStorage[request.member_id];
+    }
+
     sendResponse({is_remove: is_remove, member_id: request.member_id});
   }else{
     sendResponse({}); // snub them.
