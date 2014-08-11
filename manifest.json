@@ -11,10 +11,16 @@
 
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
+  "icons": {
+    "32": "filtter_icon32.png",
+    "48": "filtter_icon48.png",
+    "128": "filtter_icon128.png"
+  },
+
   "browser_action": {
     "name": "Reload Follow Data",
     "default_icon":{
-      "19": "icon.png"
+      "19": "filtter_icon19.png"
     },
     "default_title": "Reload Follow Data",
     "default_popup": "popup.html",
