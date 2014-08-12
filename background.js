@@ -73,15 +73,20 @@ function loadFollowData(){
   }
 }
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-  console.log(request)
-  if (request.method == "isRemoveUser"){
-    var is_remove = false;
-    if(localStorage['state'] == "true"){
-      is_remove = localStorage[request.member_id];
-    }
+function isRemoveUser(request, sender, sendResponse){
+  var is_remove = false;
+  if(localStorage['state'] == "true"){
+    is_remove = localStorage[request.member_id];
+  }
 
-    sendResponse({is_remove: is_remove, member_id: request.member_id});
+  sendResponse({is_remove: is_remove, member_id: request.member_id});
+}
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.method == "isRemoveUser"){
+    isRemoveUser(request, sender, sendResponse)
+  }else if(request.method == "isEnable"){
+    sendResponse({is_enable: getState()});
   }else{
     sendResponse({}); // snub them.
   }
