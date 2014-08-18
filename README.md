@@ -1,4 +1,4 @@
-Pixiv follower filtter
+Pixiv follower filter
 
 Remove follower illust from search result.
 
