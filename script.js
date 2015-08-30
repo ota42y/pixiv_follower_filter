@@ -6,11 +6,13 @@ removeUser = function(user_id) {
 		var item = items[index]
 
 		var user_object = item.querySelector(".user")
-		var member_id = user_object.dataset.user_id
+		if (user_object) { // 人気作品をもっと見る！部分は消さない
+			var member_id = user_object.dataset.user_id
 
-		if(user_id == member_id){
-			item.parentNode.removeChild(item)
-			return;
+			if(user_id == member_id){
+				item.parentNode.removeChild(item)
+				return;
+			}
 		}
 	}
 }
@@ -29,14 +31,18 @@ chrome.runtime.sendMessage({method: "isEnable"}, function(response) {
 			var item = items[index]
 
 			var user_object = item.querySelector(".user")
-			var member_id = user_object.dataset.user_id
+			if (user_object) { // 人気作品をもっと見る！部分は消さない
+				var member_id = user_object.dataset.user_id
 
-			chrome.runtime.sendMessage({method: "isRemoveUser", member_id: member_id}, function(response) {
-				if(response.is_remove){
-					console.log(response.member_id + " is followed");
-					removeUser(response.member_id);
-				}
-			});
+				chrome.runtime.sendMessage({method: "isRemoveUser", member_id: member_id}, function(response) {
+					if(response.is_remove){
+						console.log(response.member_id + " is followed");
+						removeUser(response.member_id);
+					}else{
+						console.log(response.member_id + " not followed");
+					}
+				});
+			}
 		}
 	}
 });
