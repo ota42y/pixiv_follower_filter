@@ -1,7 +1,7 @@
 ﻿{
   "name": "pixiv_follower_filter",
   "description": "pixiv follower filter on search result",
-	"version": "0.0.0.1",
+	"version": "0.0.0.2",
 	"manifest_version": 2,
 	"permissions": [
     "http://www.pixiv.net/*",
